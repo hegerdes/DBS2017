@@ -1,0 +1,24 @@
+1. Während einzelne Dateien, die später zu einem Übungsblatt zusammengefügt werden sollen, hochgeladen werden, stürzt der Server ab.
+
+Integritätsverletzung/Verlust von Daten
+Das Ergebnis besteht aus mehreren einzelnen Dateien, welches beim Abbruch der Verbindung während des Uploads nicht vollständig garantiert werden kann. Teile der Informationen können verloren gehen.
+
+2. Der Systemadministrator hat die Benutzernamen und Passwörter aller Nutzer in einer Textdatei
+auf dem Server gespeichert.
+Sicherheit/ Verlust von Daten
+Die Daten sollten nicht auf dem Server und auch nicht unverschlüsselt gespeichert werden. Die Benutzer sollten nur Zugriff auf ihr eigenes Passwort haben, nicht auf die der anderen.
+
+3. Bei der Auswertung von Klausuren liegt eine Datei mit Noten auf dem Rechner des Dozenten,
+die Noten sind aber auch in OPIUM gespeichert. Eine Note muss nachträglich geändert werden.
+Redundanz/ Inkonsistenz/ Mehrfachbenutzerzugriff
+Durch die Mehrfachspeicherung treten Redundanzen auf, die bei Änderung an einer Stelle zu Inkonsistenten Datensäten führen. Gleichzeitige Veränderung an zentraler Stelle (OPIUM) nicht möglich.
+
+4. Der Dozent und der Übungsleiter wollen gleichzeitig Änderungen an der Webseite der Veranstaltung
+durchführen.
+Mehrfachbenutzerzugriff
+Falls beide zur gleichen Zeit die alte Datei öffnen und jeder für sich die Datei modifiziert und beide diese abspeichern, wird letztendlich das  letzte Update gespeichert und das andere überschrieben. 
+
+5. Der Übungsleiter und der Dozent führen jeweils eine Liste der Teilnehmer der Veranstaltung.
+Redundanz/ Inkonsistenz
+Die Daten liegen doppelt vor. Bei Veränderungen an nur einer Stelle kann es zu Inkonsistenzen kommen
+
