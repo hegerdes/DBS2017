@@ -32,11 +32,13 @@ foreach ($rows as $row) {
 //var_dump($csvarray);
 
 
-$csvsort=array();
-$minss=99;
+/*
+ * Orders the Dater by MartNR
+ * uses Selechtionsort
+ */
 for($i=0; $i < count($csvarray); $i++){
     for($s=$i; $s < count($csvarray); $s++){
-        if($csvarray[$s][3]<$csvarray[$i][3]){
+        if($csvarray[$s][2]<$csvarray[$i][2]){
             $help=$csvarray[$i];
             $csvarray[$i]= $csvarray[$s];
             $csvarray[$s]=$help;
