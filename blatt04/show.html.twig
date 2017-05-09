@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Klausur-Termine</h1>
+
+    <h2>Noten</h2>
+
+
+    <table class="table table-condensed">
+        <tr>
+            <th>Prüfungsfach</th>
+            <th>Raum</th>
+            <th>Prüfungsbeginn</th>
+            <th>Dauer</th>
+            <th>Prüfer</th>
+            <th>Fachbereich</th>
+            <th>Prüfungsform</th>
+            <th>Versuch</th>
+            <th>Semester</th>
+            <th>Datum</th>
+        </tr>
+
+        {% for keys in 0..7  %}
+            <tr>
+                {% for key in 0..9 %}
+                    <td>
+                        {{ exams[keys][key] }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+
+    </table>
+
+{% endblock %}
