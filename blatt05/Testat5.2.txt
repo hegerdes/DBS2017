@@ -1,0 +1,154 @@
+**Testat 5**
+
+/**
+ * Aufgabe 5.2
+ * Erstellen der Tabellen
+ */
+
+Create table building (
+    building_nr smallint,
+    primary key(building_nr),
+    UNIQUE (building_nr)
+    )
+
+
+Create table room (
+    room_nr smallint check (room_nr between 0 and 9999),
+    is_in smallint,
+    primary key(room_nr),
+    foreign key (is_in) References building(building_nr) 
+    on Update cascade
+    on delete cascade
+    )
+
+Create table examiner (
+    examiner_id smallint,
+    f_name character varying not null,
+    l_name character varying not null,
+    primary key(examiner_id),
+    UNIQUE (examiner_id)   
+    )
+
+Create table semester (
+    semester_id serial,
+    identifier character varying not null,
+    application_start date,
+    application_end date,
+    primary key(semester_id),
+    UNIQUE(semester_id)
+    )
+
+
+create type results as enum('enrolled','passed','failed');
+
+Create table participate(
+    subscriber smallint,
+    grade NUMERIC(3,1) check (grade > 0.7 and grade < 5.0),
+    status results,
+    in_exam serial,
+    primary key(subscriber, in_exam),
+    foreign key (subscriber) References student(student_id) 
+    on Update cascade
+    on delete cascade,
+    foreign key (in_exam) References exam(exam_id) 
+    on Update cascade
+    on delete cascade
+    );
+
+Create table exam_in_room(
+    exams_room smallint,
+    exams_id_room serial,
+    primary key(exams_room, exams_id_room),
+    foreign key (exams_room) References room(room_nr) 
+    on Update cascade,
+    foreign key (exams_id_room) References exam(exam_id) 
+    on Update cascade
+    );
+
+CREATE TABLE student(
+    student_id integer,
+    f_name character varying COLLATE NOT NULL,
+    l_name character varying COLLATE NOT NULL,
+    bd_date date,
+    PRIMARY KEY (student_id),
+    UNIQUE(student_id)
+    );
+
+Create table exam(
+    exam_id serial,
+    theme character varying(30) not null,
+    kind character varying(8) check (kind in ('oral','written')),
+    duration time,
+    exams_day date,
+    start_time timestamp,
+    in_semester serial,
+    exam_by smallint,
+    primary key(exam_id),
+    foreign key (in_semester) References semester(semester_id) 
+    on Update cascade,
+    foreign key (exam_by) References examiner(examiner_id) 
+    on Update cascade,
+    UNIQUE(exam_id)
+    );
+
+
+/**
+ * Aufgabe 5.2
+ * Einfügen von Beispieldaten:
+ */
+
+INSERT INTO examiner VALUES
+    ('00001', 'Hans', 'Peter')
+    ('00002', 'Gert', 'Neumann')
+    ('00003', 'Frank', 'Meyer')
+    ('00004', 'Karl', 'Schmidt'),
+    ('00005', 'Homer', 'Simpson');
+
+INSERT INTO student VALUES
+      ('11111', 'Susi', 'Sorglos', '14.03.1993'),
+      ('11112', 'Justus', 'Jonas', '01.05.1990'),
+      ('11113', 'Peter', 'Shaw', '06.04.1988'),
+      ('11114', 'Bob', 'Andrews', '09.11.1989'),
+      ('11115', 'Kalr', 'Feuerbach', '25.08.1988');
+
+INSERT INTO semester VALUES
+      ('747', 'SS2017','04.04.2017', '01.06.2017'),
+      ('748', 'WS2017','15.12.2017', '25.01.2018');
+
+INSERT INTO building VALUES
+      ('01'),
+      ('66'),
+      ('15')
+
+INSERT INTO room (is_in, room_nr) VALUES 
+      ('01','15'),
+      ('01','11'),
+      ('01','20'),
+      ('66','02'),
+      ('66','10')
+
+INSERT INTO exam VALUES
+      ('987', 'Micro', 'written', time'02:00', '14.07.2017',date '2017-07-14' + time '10:00', '747','5'),
+      ('654', 'Statistik', 'written',  time'02:00', '02.07.2017',date '2017-07-12' + time '13:00', '747','4'),
+      ('321', 'Jahresabschluss', 'oral',  time'01:00', '08.07.2017',date '2017-07-08' + time '15:00', '747','1'),
+      ('963', 'Info A', 'written',  time'02:00', '08.03.2018',date '2018-03-08' + time '15:00', '748','3'),
+      ('852', 'Mathematik', 'written', time'01:00', '30.07.2017',date '2017-07-30' + time '08:00', '747','1'),
+      ('741', 'Winfo', 'written',  time'02:00', '02.02.2018',date '2018-02-02' + time '13:00', '748','4')
+      
+INSERT INTO exam_in_room VALUES
+      ('2','321'),
+      ('11','987')
+
+INSERT INTO participate (subscriber, in_exam) VALUES 
+      ('11111','963'),
+      ('11113','963'),
+      ('11112','654'),
+      ('11111','321')
+      
+/**
+ * Aufgabe 5.3
+ * Verschiedene Abfragen für PHP
+ */
+
+select building_nr, room_nr from room, building where is_in = building_nr and room_nr>5;
+select exam_id as \"Prüfungsnummer\", theme as \"Vorlesung\", kind as \"Prüfungsart\", duration as \"Dauer\", start_time, f_name as \"Prüfer Vorname\", l_name as \"Prüfer Nachame\" from exam, examiner where exam_by=examiner_id;

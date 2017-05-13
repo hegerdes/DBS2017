@@ -1,0 +1,4 @@
+services:
+#    opium.example:
+#        class: OpiumBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

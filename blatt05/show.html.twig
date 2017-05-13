@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+    <h1>Klausur-Termine</h1>
+
+    <h2>Noten</h2>
+
+
+    <table class="table table-condensed">
+        <tr>
+            {% for i in 0..atributlaenge %}
+                <th>{{ names[i] }}</th>
+            {% endfor %}
+        </tr>
+
+        {% for i,keys in 0..tupellaenge  %}
+            <tr>
+                 {% for keys in exams[i]|keys %}
+                    <td>
+                    {{ exams[i][keys] }}
+                    </td>
+                 {% endfor %}
+
+            </tr>
+        {% endfor %}
+
+
+
+    </table>
+
+
+
+
+{% endblock %}
