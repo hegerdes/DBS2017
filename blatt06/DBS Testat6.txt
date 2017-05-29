@@ -1,0 +1,130 @@
+Testat 6
+
+Aufagebe 6.1
+
+1:
+Select "Name" from "Assistenten";
+
+
+2:
+Select "Name" from "Studenten" 
+where "GebDatum" > '01.01.1975';
+
+
+3:
+Select p."Name" from "Professoren" p 
+inner Join "Assistenten" a on (p."PersNr" = a."Boss") 
+where a."Name" = 'Platon';
+
+
+4:
+Select s."Name" from "Studenten" s 
+inner Join "hoeren" h on (s."MatrNr" = h."MatrNr")
+inner Join "Vorlesungen" v on (h."VorlNr" = v."VorlNr") 
+where v."Titel" = 'Logik';
+
+
+5:
+Select v1."Titel", p."Name" from "Vorlesungen" v1, "Vorlesungen" v2, "voraussetzen" vr, "Professoren" p
+where v2."VorlNr" = vr."Vorgaenger" 
+and v2."Titel" = 'Ethik'
+and vr."Nachfolger" = v1."VorlNr"
+and v1."gelesenVon" = p."PersNr";
+
+
+6:
+select avg(sum) from (select sum("SWS") from "Vorlesungen"
+group by "gelesenVon") s;
+
+
+7:
+select distinct s."Name", vl."Titel" from "Vorlesungen" vl, "Studenten" s, "hoeren" h, "voraussetzen" v 
+where h."MatrNr" = s."MatrNr" and
+v."Nachfolger" = h."VorlNr" and vl."VorlNr" = v."Nachfolger" and
+v."Vorgaenger" not in (select h2."VorlNr" from "hoeren" h2 where
+h2."MatrNr" = s."MatrNr");
+
+
+8:
+select s."Name", sum(v."SWS") as sum from "Vorlesungen" v, "hoeren" h, "Studenten" s 
+where s."MatrNr" = h."MatrNr" and h."VorlNr" = v."VorlNr"
+group by s."MatrNr" 
+order by sum desc;
+
+Aufgabe 6.2
+
+1:
+select title from title 
+where production_year=1942;
+
+
+2:
+select t.title, t.production_year from title t
+inner Join cast_info c on (t.id = c.movie_id)
+inner Join name n on (c.person_id = n.id)
+where n.name = 'Connery, Sean'
+order by production_year ASC;
+
+
+3:
+select t.title, t.production_year from char_name cn
+inner Join name n on (cn.name_pcode_nf = n.name_pcode_nf)
+inner Join cast_info c on (n.id = c.person_id)
+inner Join title t on (t.id = c.movie_id)
+where cn.name = 'James Bond'
+order by t.production_year ASC
+
+
+4:
+select count(t.title) as "Referenzen zu der Pate" from movie_link ml
+inner Join title t on (t.id = ml.movie_id)
+where ml.linked_movie_id = (select t.id from title t
+where t.title = 'The Godfather'
+and t.production_year = 1972)
+and ml.link_type_id = (select lt.id from link_type lt
+where lt.link = 'references')
+
+
+5:
+select avg(cast(mii.info as integer)) as "AVG Bewertungen"
+from movie_info_idx mii
+where mii.info_type_id = 
+(select it.id from info_type it 
+where it.info = 'votes')
+and mii.info is not null
+
+
+6:
+select t.title, miid.info from movie_info_idx miid
+inner join 
+(select * from movie_info_idx mii
+where mii.info_type_id = 
+ (select it.id from info_type it 
+where it.info = 'votes') 
+and (cast(mii.info as integer)) >= 5000) af 
+on (af.movie_id = miid.movie_id)
+inner join title t on (t.id = miid.movie_id)
+where miid.info_type_id = (select it.id from info_type it 
+where it.info = 'rating')
+order by (cast(miid.info as decimal)) ASC
+Limit 100
+
+
+7:
+select (at.title), at.production_year, miid.info as "Bewerung", mid.budget from movie_info_idx miid
+inner join 
+(select DIstinct mii.movie_id as votes_m_id from movie_info_idx mii
+where mii.info_type_id = 100
+and (cast(mii.info as integer)) >= 5000) mv 
+on (mv.votes_m_id = miid.movie_id)
+inner join 
+(Select DIstinct mi.info as budget, mi.movie_id as bg_m_id from movie_info mi
+where mi.info_type_id = 105) mid 
+on (mid.bg_m_id = miid.movie_id)
+inner join aka_title at
+on (at.movie_id = miid.movie_id)
+where miid.info_type_id = 101 
+and at.note like '%Germany%'
+and mid.budget like '$%'
+order by (cast(miid.info as decimal)) DESC
+Limit 100
