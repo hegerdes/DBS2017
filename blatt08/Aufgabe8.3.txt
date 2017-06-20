@@ -1,0 +1,66 @@
+Aufagebe 8.1
+1:
+Map:
+function() {
+   for (var i = 0; i < this.vorlesungen.length; i++) {
+     for(var titel in this.vorlesungen[i]){
+      var note = this.vorlesungen[i][titel];
+      emit( titel, 1 );
+} } }
+
+Reduce:
+
+function(titel, values) {
+   count = 0;
+   for (var index = 0; index < values.length; ++index) {
+      count += values[index];
+   }
+
+out:
+{inline:1}
+
+2:
+Map:
+function() {
+   for (var i = 0; i < this.vorlesungen.length; i++) {
+     for(var titel in this.vorlesungen[i]){
+      var note = this.vorlesungen[i][titel];
+      emit( titel, note );
+} } }
+
+Reduce:
+
+function(key, values) {
+   count = 0;
+   for (var i = 0; i < values.length; ++i) {
+      if(values[i] >= 5.0) {
+         count += 1;
+   } }
+
+   return count;
+}
+
+out:
+{inline:1}
+
+3:
+Map:
+function() {
+   for (var i = 0; i < this.vorlesungen.length; i++) {
+     for(var titel in this.vorlesungen[i]){
+      var note = this.vorlesungen[i][titel];
+      emit( titel, note );
+} } }
+
+Reduce:
+function(key, values) {
+   sum = 0;
+   for (var i = 0; i < values.length; ++i) {
+      if(values[i] >= 5.0) {
+         sum += values[i];
+   } }
+   sum = sum/values.length;
+
+   return sum;
+}
+
