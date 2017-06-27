@@ -1,0 +1,52 @@
+Testat 9 
+
+Aufgabe 9.1 ODL
+
+class Semester (extent semesters){
+	attribute int ID;
+	attribute string Bezeichner;
+	relation Prüfung hat
+		inverse Prüfung :: in;
+	}
+
+class Prüfung (extent prüfungen){
+	attribute int ID;
+	attribute string Thema;
+	attribute date Datum;
+	attribute int Dauer;
+	relation set <Semester> in
+		inverse Semester :: hat;
+	relation set <Prüfer> angeboten_von
+		inverse Prüfer :: bietet_an;
+	relation Teilnahme besteht
+		inverse Teilnahme :: an;
+	}
+
+class Benutzer(extent benutzers){
+	attribute string Nachname;
+	attribute string Vorname;
+	}
+
+class Prüfer extends Benutzer(extent prüfers){
+	attribute int ID;
+	relation Prüfer bietet_an
+		inverse Prüfer :: angeboten_von;
+	}
+	
+class Student extends Benutzer(extent studenten){
+	attribute int Martikelnummer;
+	attribute date Geburtsdatum;
+	relation Teilnahme hat_eine
+		inverse Teilnahme :: besteht_von;
+	}
+	
+class Teilnahme(extent teilnahmen){
+	attribute float Note;
+	attribute string Status;
+	relation set <Student> besteht_von
+		inverse Student :: hat_eine;
+	relation set <Prüfung> an
+		inverse Prüfung :: besteht;
+	}
+
+	

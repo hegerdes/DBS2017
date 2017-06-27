@@ -1,0 +1,8 @@
+Testat 9 
+
+Aufgabe 9.3 PostGIS
+
+1:
+select name, abs(ST_Length(St_AsText(geom))/3.28084) as Länge, St_AsText(geom) as Text from nyc_streets
+where ST_Length(St_AsText(geom)) = (select min(ST_Length(St_AsText(geom))) from nyc_streets);
+2:
