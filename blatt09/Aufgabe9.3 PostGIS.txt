@@ -6,3 +6,14 @@ Aufgabe 9.3 PostGIS
 select name, abs(ST_Length(St_AsText(geom))/3.28084) as Länge, St_AsText(geom) as Text from nyc_streets
 where ST_Length(St_AsText(geom)) = (select min(ST_Length(St_AsText(geom))) from nyc_streets);
 2:
+select gid, popn_total as Menschen, abs(ST_Area(St_AsText(geom))*0.00000009290304) as Fläche, St_AsText(geom) as Text from nyc_census_blocks
+where ST_Area(St_AsText(geom)) = (select max(ST_Area(St_AsText(geom))) from nyc_census_blocks);
+3:
+select type, sum(abs(ST_Length(St_AsText(geom))/3.28084)) as Länge from nyc_streets
+group by type;
+4:
+Select borough, count(borough) from nyc_subway_stations
+group by borough;
+5:
+
+
