@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block headline %}
+    Semester
+{% endblock %}
+
+{% block title %}
+    Semester
+{% endblock %}
+
+{% block content_row %}
+
+    <div class="row">
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>{{ 'entity.semester.application_start'|trans }}</th>
+                <th>{{ 'entity.semester.application_end'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for semester in semesters %}
+                <tr>
+                    <td><a href="{{ path('browse', {'semester': semester.id}) }}">{{ semester.identifier }}</a></td>
+                    <td>{{ semester.applicationStart|date('H:i d.m.Y') }}</td>
+                    <td>{{ semester.applicationEnd|date('H:i d.m.Y') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content_row %}

@@ -1,0 +1,4 @@
+OpiumBundle\Entity\Room:
+    room{1..50}:
+        number (unique): '<numerify("###")>'
+        building: '@building*'

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block headline %}
+Übersicht zur Prüfung
+{% endblock %}
+
+{% block title %}
+    Übersicht zur Prüfung "{{ exam.subject }}"
+{% endblock %}
+
+{% block content_row %}
+
+
+    <h2>Prüfung</h2>
+
+    <div class="row">
+        <div class="col-sm-12"><strong>Thema:</strong>&nbsp;{{ exam.subject }}</div>
+        <div class="col-sm-12"><strong>Semester:</strong>&nbsp;{{ exam.semester.identifier }}</div>
+        <div class="col-sm-12"><strong>Datum:</strong>&nbsp;{{ exam.date|date('d.m.Y') }}</div>
+        <div class="col-sm-12"><strong>Uhrzeit:</strong>&nbsp;{{ exam.date|date('H:i') }}</div>
+        <div class="col-sm-12"><strong>Termin:</strong>&nbsp;{{ exam.appointment }}</div>
+    </div>
+
+    <h2>Teilnehmer</h2>
+
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Matrikelnummer</th>
+            <th>E-Mail</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+
+            <tr>
+                <td>{{ student.forename }}</td>
+                <td>{{ student.surname }}</td>
+                <td>{{ student.matriculationNumber }}</td>
+                <td>{{ student.email }}</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock content_row %}

@@ -1,0 +1,20 @@
+OpiumBundle\Entity\Exam:
+    exam{1..25}:
+        appointment: '<numberBetween(1,2)>'
+        type: '75%? <numberBetween(1,2)>'
+        duration: '<numberBetween(30,240)>'
+        date: '<dateTimeBetween("now", "+2 months")>'
+        subject (unique): '<examSubject()>'
+        room: '@room*'
+        semester: '@semester*'
+        examiner: '@xexaminer*'
+
+    exam{26..35}:
+        appointment: '<numberBetween(1,2)>'
+        type: '<numberBetween(1,2)>'
+        duration: '<numberBetween(30,240)>'
+        date: '<dateTimeBetween("-2 months", "-1 day")>'
+        subject (unique): '<examSubject()>'
+        room: '@room*'
+        semester: '@semester*'
+        examiner: '@xexaminer*'

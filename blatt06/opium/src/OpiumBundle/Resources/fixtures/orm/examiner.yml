@@ -1,0 +1,3 @@
+OpiumBundle\Entity\Examiner:
+    xexaminer1:
+        __construct: { '@opium.faker.factory.user::examiner': ['examiner', 'examiner@uos.de', 'examiner', '<firstName()>', '<lastName()>'] }

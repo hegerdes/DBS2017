@@ -1,0 +1,14 @@
+OpiumBundle\Entity\ExamParticipation:
+    pexam_participation{1..500}:
+        __construct: { '@opium.faker.factory.exam_participation::create': ['@student*', '@exam<numberBetween(1,25)>'] }
+        status: '1' #enrolled
+
+    pexam_participation{501..800}:
+        __construct: { '@opium.faker.factory.exam_participation::create': ['@student*', '@exam<numberBetween(26,35)>'] }
+        status: '2' #passed
+        grade: '<randomFloat(1, 0.7,4.0)>'
+
+    pexam_participation{801..900}:
+        __construct: { '@opium.faker.factory.exam_participation::create': ['@student*', '@exam<numberBetween(26,35)>'] }
+        status: '3' #failed
+        grade: '5.0'

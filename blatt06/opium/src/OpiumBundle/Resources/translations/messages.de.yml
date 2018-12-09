@@ -1,0 +1,21 @@
+security:
+    login:
+        username_or_mail: Benutzername oder E-Mail
+
+form:
+    matriculation_number: Matrikelnummer
+    date_of_birth: Geburtsdatum
+    forename: Vorname
+    surname: Nachname
+
+profile:
+    show:
+        matriculation_number: Matrikelnummer
+        date_of_birth: Geburtsdatum
+        forename: Vorname
+        surname: Nachname
+
+entity:
+    semester:
+        application_start: Start der Anmeldefrist
+        application_end: Ende der Anmeldefrist

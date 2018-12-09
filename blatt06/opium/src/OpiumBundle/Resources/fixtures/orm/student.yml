@@ -1,0 +1,22 @@
+OpiumBundle\Entity\Student:
+    student1:
+        __construct:
+            '@opium.faker.factory.user::student':
+                0: 'student'
+                1: '\@uos.de'
+                2: 'student'
+                3: 'Susi'
+                4: 'Sorglos'
+                5: '<dateTime("22.11.1989")>'
+                6: 741142
+
+    student{2..99}:
+        __construct:
+            '@opium.faker.factory.user::student':
+                0 (unique): '<userName()>'
+                1: '\@uos.de'
+                2: ''
+                3: '<firstName()>'
+                4: '<lastName()>'
+                5: '<dateTimeBetween("-30 years", "-18 years")>'
+                6 (unique): <numberBetween(100000, 999999)>

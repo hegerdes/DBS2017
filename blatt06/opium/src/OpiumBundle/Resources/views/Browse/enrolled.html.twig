@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Klausuren{% endblock %}
+{% block headline %}Klausuren{% endblock headline %}
+
+{% block content_row %}
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Kurs</th>
+            <th>Raum</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Dauer</th>
+            <th>Prüfer/in</th>
+            <th>Art der Prüfung</th>
+            <th>Termin</th>
+            <th>Semester</th>
+            <th>Status</th>
+            <th>Aktion</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for exam in exams %}
+
+            <tr>
+                <td>{{ exam.subject }}</td>
+                <td>{{ exam.room.building.number }}/{{ exam.room.number }}</td>
+                <td>{{ exam.date|date("d.m.Y") }}</td>
+                <td>{{ exam.date|date("H:i") }}</td>
+                <td>{{ exam.duration }}</td>
+                <td>{{ exam.examiner.forename }}&nbsp;{{ exam.examiner.surname }}</td>
+                <td>
+                    {% if exam.type == constant('OpiumBundle\\Entity\\ExamType::WRITTEN') %}
+                        schriftlich
+                    {% elseif exam.type == constant('OpiumBundle\\Entity\\ExamType::ORAL') %}
+                        mündlich
+                    {% else %}
+                        nocht nicht festgelegt
+                    {% endif %}
+                </td>
+                <td>{{ exam.appointment }}</td>
+                <td>{{ exam.semester.identifier }}</td>
+                <td>
+                    {% set participation = exam.examParticipationForExam(exam) %}
+                    {% if participation %}
+                    {% if participation.status == constant('OpiumBundle\\Entity\\ExamParticipationStatus::ENROLLED') %}
+                    angemeldet
+                </td>
+                <td>
+                    {% if app.user.type == constant('OpiumBundle\\Entity\\User::TYPE_STUDENT') %}
+                    <form action="{{ path('sign_off', {'exam': exam.id}) }}" method="post">
+                        <button type="submit" class="btn btn-danger btn-xs">Abmelden</button>
+                    </form>
+                    {% endif %}
+                    {% elseif participation.status == constant('OpiumBundle\\Entity\\ExamParticipationStatus::FAILED') %}
+                    durchgefallen
+                </td>
+                <td>
+                    {% else %}
+                    bestanden
+                </td>
+                <td>
+                    {% endif %}
+                    {% else %}
+                    nicht angemeldet
+                </td>
+                <td>
+                    {% if app.user.type == constant('OpiumBundle\\Entity\\User::TYPE_STUDENT') %}
+                    <form action="{{ path('enroll', {'exam': exam.id}) }}" method="post">
+                        <button type="submit" class="btn btn-success btn-xs">Anmelden</button>
+                    </form>
+                    {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content_row %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}Profil{% endblock %}
+{% block headline %}Profil{% endblock headline %}
+
+{% block content_row %}
+
+    <div class="row">
+
+        <div class="col-sm-3">
+            <img src="https://api.adorable.io/avatars/200/{{ user.username }}" alt="Profile picture">
+        </div>
+
+        <div class="col-sm-9">
+            <p><strong>{{ 'profile.show.username'|trans }}:</strong> {{ user.username }}</p>
+            <p><strong>{{ 'profile.show.email'|trans }}:</strong> {{ user.email }}</p>
+            <p><strong>{{ 'profile.show.forename'|trans({}, 'messages') }}:</strong> {{ user.forename }}</p>
+            <p><strong>{{ 'profile.show.surname'|trans({}, 'messages') }}:</strong> {{ user.surname }}</p>
+
+            {% if user.type == constant('OpiumBundle\\Entity\\User::TYPE_STUDENT') %}
+                <p><strong>{{ 'profile.show.date_of_birth'|trans({}, 'messages') }}:</strong> {{ user.dateOfBirth|date('d.m.Y') }}</p>
+                <p><strong>{{ 'profile.show.matriculation_number'|trans({}, 'messages') }}:</strong> {{ user.matriculationNumber }}</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="row top5">
+        <div class="col-sm-12">
+            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">Bearbeiten</a>
+        </div>
+    </div>
+
+{% endblock content_row %}

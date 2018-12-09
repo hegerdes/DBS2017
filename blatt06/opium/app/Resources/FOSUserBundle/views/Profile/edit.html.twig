@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}Profil bearbeiten{% endblock %}
+{% block headline %}Profil bearbeiten{% endblock headline %}
+
+{% block content_row %}
+
+{{ form_start(form, { 'action': path('fos_user_profile_edit') }) }}
+    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" id="_submit" name="_submit" class="btn btn-primary">{{ 'profile.edit.submit'|trans }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}
+
+{% endblock content_row %}
+
+{% block head_style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
+{% endblock head_style %}
+
+{% block foot_script_assetic %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            var picker = $('[data-provider="datepicker"]');
+            picker.datetimepicker({
+                autoclose: true,
+                format: 'dd.mm.yyyy',
+                language: 'de',
+                minView: 'month',
+                pickerPosition: 'bottom-left',
+                todayBtn: true,
+                startView: 'month'
+            });
+        })
+    </script>
+{% endblock foot_script_assetic %}
